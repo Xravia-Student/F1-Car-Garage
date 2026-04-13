@@ -1,0 +1,73 @@
+﻿@model IEnumerable<F1_Car_Garage.Models.Part>
+@{
+    ViewData["Title"] = "Parts";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Parts Inventory</h2>
+    <a asp-action="Upsert" class="btn btn-danger">+ Add Part</a>
+</div>
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">@TempData["success"]</div>
+}
+
+@Html.AntiForgeryToken()
+
+<table class="table table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Cost</th>
+            <th>Manufacturer</th>
+            <th>Speed+</th>
+            <th>Handling+</th>
+            <th>Accel+</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Name</td>
+                <td><span class="badge bg-secondary">@p.Type</span></td>
+                <td>@p.Cost.ToString("C")</td>
+                <td>@p.Manufacturer?.Name</td>
+                <td>@p.SpeedBoost</td>
+                <td>@p.HandlingBoost</td>
+                <td>@p.AccelBoost</td>
+                <td>
+                    <a asp-action="Upsert" asp-route-id="@p.PartId"
+                       class="btn btn-sm btn-outline-primary">Edit</a>
+                    <button class="btn btn-sm btn-outline-danger"
+                            onclick="deletePart(@p.PartId)">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        function deletePart(id) {
+            if (!confirm("Are you sure you want to delete this part?")) return;
+            fetch("/Part/Delete/" + id, {
+                method: "POST",
+                headers: {
+                    "RequestVerificationToken":
+                        document.querySelector('[name=__RequestVerificationToken]').value
+                }
+            })
+            .then(r => r.json())
+            .then(d => {
+                if (d.success) location.reload();
+                else alert("Error: " + d.message);
+            });
+        }
+    </script>
+}

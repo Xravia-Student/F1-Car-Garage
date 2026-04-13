@@ -1,0 +1,76 @@
+﻿@model F1_Car_Garage.Models.Part
+@{
+    ViewData["Title"] = Model.PartId == 0 ? "Add Part" : "Edit Part";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Upsert" method="post">
+    <input asp-for="PartId" type="hidden" />
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Type" class="form-label"></label>
+            <select asp-for="Type" class="form-select">
+                <option value="">-- Select Type --</option>
+                <option>Tire</option>
+                <option>ECU</option>
+                <option>Engine</option>
+                <option>Aero</option>
+                <option>Brakes</option>
+            </select>
+            <span asp-validation-for="Type" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Cost" class="form-label"></label>
+            <input asp-for="Cost" class="form-control" />
+            <span asp-validation-for="Cost" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="ManufacturerId" class="form-label">Manufacturer</label>
+            <select asp-for="ManufacturerId" asp-items="ViewBag.Manufacturers"
+                    class="form-select">
+                <option value="">-- Select Manufacturer --</option>
+            </select>
+            <span asp-validation-for="ManufacturerId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <h5 class="mt-2">Performance Boosts</h5>
+    <div class="row">
+        <div class="col-md-3 mb-3">
+            <label asp-for="SpeedBoost" class="form-label"></label>
+            <input asp-for="SpeedBoost" class="form-control" type="number" min="0" max="50" />
+            <span asp-validation-for="SpeedBoost" class="text-danger"></span>
+        </div>
+        <div class="col-md-3 mb-3">
+            <label asp-for="HandlingBoost" class="form-label"></label>
+            <input asp-for="HandlingBoost" class="form-control" type="number" min="0" max="50" />
+            <span asp-validation-for="HandlingBoost" class="text-danger"></span>
+        </div>
+        <div class="col-md-3 mb-3">
+            <label asp-for="AccelBoost" class="form-label"></label>
+            <input asp-for="AccelBoost" class="form-control" type="number" min="0" max="50" />
+            <span asp-validation-for="AccelBoost" class="text-danger"></span>
+        </div>
+        <div class="col-md-3 mb-3">
+            <label asp-for="ManeuverabilityBoost" class="form-label"></label>
+            <input asp-for="ManeuverabilityBoost" class="form-control" type="number" min="0" max="50" />
+            <span asp-validation-for="ManeuverabilityBoost" class="text-danger"></span>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-danger">Save</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

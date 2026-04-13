@@ -1,0 +1,105 @@
+﻿@model IEnumerable<F1_Car_Garage.Models.Part>
+@{
+    ViewData["Title"] = "Compare Parts";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Compare Parts</h2>
+    <a asp-action="Index" class="btn btn-outline-secondary">Back to Parts</a>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card p-3">
+            <h5 class="mb-3">Select parts to compare</h5>
+            @foreach (var p in Model)
+            {
+                <div class="form-check mb-2">
+                    <input class="form-check-input part-check"
+                           type="checkbox"
+                           id="part_@p.PartId"
+                           data-name="@p.Name"
+                           data-speed="@p.SpeedBoost"
+                           data-handling="@p.HandlingBoost"
+                           data-accel="@p.AccelBoost"
+                           data-maneuver="@p.ManeuverabilityBoost"
+                           value="@p.PartId" />
+                    <label class="form-check-label" for="part_@p.PartId">
+                        <strong>@p.Name</strong>
+                        <span class="badge bg-secondary ms-1">@p.Type</span>
+                        <br />
+                        <small class="text-muted">@p.Manufacturer?.Name</small>
+                    </label>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card p-3">
+            <h5 class="mb-3">Performance Radar</h5>
+            <canvas id="radarChart"></canvas>
+            <p id="no-selection" class="text-muted text-center mt-3">
+                Select parts on the left to compare them
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const colors = [
+        { border: '#E8002D', bg: 'rgba(232,0,45,0.15)' },
+        { border: '#378ADD', bg: 'rgba(55,138,221,0.15)' },
+        { border: '#1D9E75', bg: 'rgba(29,158,117,0.15)' },
+        { border: '#EF9F27', bg: 'rgba(239,159,39,0.15)' },
+        { border: '#534AB7', bg: 'rgba(83,74,183,0.15)' }
+        ];
+
+        const chart = new Chart(document.getElementById('radarChart'), {
+        type: 'radar',
+        data: {
+        labels: ['Speed', 'Handling', 'Acceleration', 'Maneuverability'],
+        datasets: []
+        },
+        options: {
+        scales: {
+        r: { min: 0, max: 50, ticks: { stepSize: 10 } }
+        },
+        plugins: {
+        legend: { position: 'bottom' }
+        }
+        }
+        });
+
+        let colorIndex = 0;
+
+        document.querySelectorAll('.part-check').forEach(cb => {
+        cb.addEventListener('change', () => {
+        const d = cb.dataset;
+        if (cb.checked) {
+        const c = colors[colorIndex % colors.length];
+        colorIndex++;
+        chart.data.datasets.push({
+        label: d.name,
+        backgroundColor: c.bg,
+        borderColor: c.border,
+        pointBackgroundColor: c.border,
+        data: [
+        parseInt(d.speed),
+        parseInt(d.handling),
+        parseInt(d.accel),
+        parseInt(d.maneuver)
+        ]
+        });
+        } else {
+        chart.data.datasets = chart.data.datasets
+        .filter(s => s.label !== d.name);
+        }
+        chart.update();
+        document.getElementById('no-selection').style.display =
+        chart.data.datasets.length === 0 ? 'block' : 'none';
+        });
+        });
+    </script>
+}

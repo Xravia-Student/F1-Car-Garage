@@ -1,0 +1,47 @@
+﻿@model IEnumerable<F1_Car_Garage.Models.Car>
+@{
+    ViewData["Title"] = "Cars";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Cars</h2>
+    <a asp-action="Upsert" class="btn btn-danger">+ Add Car</a>
+</div>
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">@TempData["success"]</div>
+}
+
+<table class="table table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Model</th>
+            <th>Base Speed</th>
+            <th>Base Handling</th>
+            <th>Base Acceleration</th>
+            <th>Base Maneuverability</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr>
+                <td>@c.Model</td>
+                <td>@c.BaseSpeed</td>
+                <td>@c.BaseHandling</td>
+                <td>@c.BaseAcceleration</td>
+                <td>@c.BaseManeuverability</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@c.CarId"
+                       class="btn btn-sm btn-outline-success">Stats</a>
+                    <a asp-action="Upsert" asp-route-id="@c.CarId"
+                       class="btn btn-sm btn-outline-primary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@c.CarId"
+                       class="btn btn-sm btn-outline-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

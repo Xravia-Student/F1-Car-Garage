@@ -1,0 +1,45 @@
+﻿@model F1_Car_Garage.Models.Car
+@{
+    ViewData["Title"] = Model.CarId == 0 ? "Add Car" : "Edit Car";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Upsert" method="post">
+    <input asp-for="CarId" type="hidden" />
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Model" class="form-label"></label>
+            <input asp-for="Model" class="form-control" />
+            <span asp-validation-for="Model" class="text-danger"></span>
+        </div>
+        <div class="col-md-3 mb-3">
+            <label asp-for="BaseSpeed" class="form-label"></label>
+            <input asp-for="BaseSpeed" class="form-control" type="number" min="0" max="100" />
+            <span asp-validation-for="BaseSpeed" class="text-danger"></span>
+        </div>
+        <div class="col-md-3 mb-3">
+            <label asp-for="BaseHandling" class="form-label"></label>
+            <input asp-for="BaseHandling" class="form-control" type="number" min="0" max="100" />
+            <span asp-validation-for="BaseHandling" class="text-danger"></span>
+        </div>
+        <div class="col-md-3 mb-3">
+            <label asp-for="BaseAcceleration" class="form-label"></label>
+            <input asp-for="BaseAcceleration" class="form-control" type="number" min="0" max="100" />
+            <span asp-validation-for="BaseAcceleration" class="text-danger"></span>
+        </div>
+        <div class="col-md-3 mb-3">
+            <label asp-for="BaseManeuverability" class="form-label"></label>
+            <input asp-for="BaseManeuverability" class="form-control" type="number" min="0" max="100" />
+            <span asp-validation-for="BaseManeuverability" class="text-danger"></span>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-danger">Save</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,37 @@
+﻿@model F1_Car_Garage.Models.Manufacturer
+@{
+    ViewData["Title"] = "Add Manufacturer";
+}
+
+<h2>Add Manufacturer</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Country" class="form-label"></label>
+        <input asp-for="Country" class="form-control" />
+        <span asp-validation-for="Country" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Tier" class="form-label"></label>
+        <select asp-for="Tier" class="form-select">
+            <option value="">-- Select Tier --</option>
+            <option>Budget</option>
+            <option>Mid</option>
+            <option>Premium</option>
+        </select>
+        <span asp-validation-for="Tier" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-danger">Save</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

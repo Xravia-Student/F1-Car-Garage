@@ -1,0 +1,57 @@
+﻿@model F1_Car_Garage.Models.Car
+@{
+    ViewData["Title"] = "Car Stats - " + Model.Model;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>@Model.Model — Performance Stats</h2>
+    <a asp-action="Index" class="btn btn-outline-secondary">Back to Cars</a>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <div id="stats-card" class="card p-3 mb-3">
+            <p class="text-muted">Loading stats...</p>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <canvas id="statsChart"></canvas>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        fetch('/api/CarsApi/@Model.CarId/stats')
+        .then(r => r.json())
+        .then(d => {
+        document.getElementById('stats-card').innerHTML = `
+        <h5>${d.model}</h5>
+        <table class="table table-sm">
+        <tr><td>Speed</td><td><strong>${d.speed}</strong></td></tr>
+        <tr><td>Handling</td><td><strong>${d.handling}</strong></td></tr>
+        <tr><td>Acceleration</td><td><strong>${d.acceleration}</strong></td></tr>
+        <tr><td>Maneuverability</td><td><strong>${d.maneuverability}</strong></td></tr>
+        </table>
+        <p class="text-muted mb-0">Installed parts: ${d.installedParts.length}</p>
+        `;
+
+        new Chart(document.getElementById('statsChart'), {
+        type: 'radar',
+        data: {
+        labels: ['Speed', 'Handling', 'Acceleration', 'Maneuverability'],
+        datasets: [{
+        label: d.model,
+        backgroundColor: 'rgba(232, 0, 45, 0.2)',
+        borderColor: '#E8002D',
+        pointBackgroundColor: '#E8002D',
+        data: [d.speed, d.handling, d.acceleration, d.maneuverability]
+        }]
+        },
+        options: {
+        scales: { r: { min: 0, max: 100 } }
+        }
+        });
+        });
+    </script>
+}
