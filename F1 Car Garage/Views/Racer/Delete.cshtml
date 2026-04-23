@@ -1,0 +1,22 @@
+﻿@model F1_Car_Garage.Models.Racer
+@{
+    ViewData["Title"] = "Delete Racer";
+}
+
+<h2>Delete Racer</h2>
+
+<div class="alert alert-danger">
+    Are you sure you want to delete <strong>@Model.Name</strong>?
+</div>
+
+<div class="card p-3 mb-3" style="max-width:400px">
+    <p><strong>Name:</strong> @Model.Name</p>
+    <p><strong>Nationality:</strong> @Model.Nationality</p>
+    <p><strong>Points:</strong> @Model.Points</p>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input asp-for="RacerId" type="hidden" />
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+</form>

@@ -1,6 +1,7 @@
 ﻿using F1_Car_Garage.Models;
 using F1_Car_Garage.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
+using QRCoder;
 
 namespace F1_Car_Garage.Controllers
 {
@@ -74,8 +75,30 @@ namespace F1_Car_Garage.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Details page with radar chart
         public IActionResult Details(int? id)
+        {
+            if (id == null) return NotFound();
+            var car = _uow.Cars.Get(id.Value);
+            if (car == null) return NotFound();
+            return View(car);
+        }
+
+        public IActionResult QRCode(int id)
+        {
+            var car = _uow.Cars.Get(id);
+            if (car == null) return NotFound();
+
+            var url = $"{Request.Scheme}://{Request.Host}/api/CarsApi/{id}/stats";
+
+            using var qrGenerator = new QRCodeGenerator();
+            var qrData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q);
+            using var qrCode = new PngByteQRCode(qrData);
+            var qrBytes = qrCode.GetGraphic(10);
+
+            return File(qrBytes, "image/png");
+        }
+
+        public IActionResult QRCodeView(int? id)
         {
             if (id == null) return NotFound();
             var car = _uow.Cars.Get(id.Value);

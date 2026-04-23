@@ -11,6 +11,7 @@ namespace F1_Car_Garage.Repository
         public IPartRepository Parts { get; private set; }
         public IManufacturerRepository Manufacturers { get; private set; }
         public IRepository<Car> Cars { get; private set; }
+        public IRepository<Racer> Racers { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -18,6 +19,7 @@ namespace F1_Car_Garage.Repository
             Parts = new PartRepository(_db);
             Manufacturers = new ManufacturerRepository(_db);
             Cars = new Repository<Car>(_db);
+            Racers = new Repository<Racer>(_db);
         }
 
         public void Save()

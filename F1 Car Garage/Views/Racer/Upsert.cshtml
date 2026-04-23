@@ -1,0 +1,42 @@
+﻿@model F1_Car_Garage.Models.Racer
+@{
+    ViewData["Title"] = Model.RacerId == 0 ? "Add Racer" : "Edit Racer";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Upsert" method="post">
+    <input asp-for="RacerId" type="hidden" />
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Nationality" class="form-label"></label>
+            <input asp-for="Nationality" class="form-control" />
+            <span asp-validation-for="Nationality" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Points" class="form-label"></label>
+            <input asp-for="Points" class="form-control" type="number" min="0" />
+            <span asp-validation-for="Points" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="CarId" class="form-label">Car</label>
+            <select asp-for="CarId" asp-items="ViewBag.Cars" class="form-select">
+                <option value="">-- Select Car --</option>
+            </select>
+            <span asp-validation-for="CarId" class="text-danger"></span>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-danger">Save</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

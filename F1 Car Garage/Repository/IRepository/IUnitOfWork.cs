@@ -5,6 +5,7 @@
         IPartRepository Parts { get; }
         IManufacturerRepository Manufacturers { get; }
         IRepository<F1_Car_Garage.Models.Car> Cars { get; }
+        IRepository<F1_Car_Garage.Models.Racer> Racers { get; }
         void Save();
     }
 }
