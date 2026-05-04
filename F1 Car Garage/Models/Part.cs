@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace F1_Car_Garage.Models
+namespace F1_Car_Garage.Models // The Part class represents a component or upgrade that can be added to a car, providing various performance boosts and having an associated cost. Each part is linked to a manufacturer, which produces the part and may have specific attributes or specialties in the context of the F1 Car Garage application.
 {
     public class Part
     {

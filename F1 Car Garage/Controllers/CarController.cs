@@ -2,9 +2,11 @@
 using F1_Car_Garage.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using QRCoder;
+using Microsoft.AspNetCore.Authorization;
 
 namespace F1_Car_Garage.Controllers
 {
+    [Authorize] // All actions require authentication from manufacturers and admins
     public class CarController : Controller
     {
         private readonly IUnitOfWork _uow;
@@ -20,6 +22,7 @@ namespace F1_Car_Garage.Controllers
             return View(cars);
         }
 
+        [Authorize(Roles = "Admin,Manufacturer")]
         public IActionResult Upsert(int? id)
         {
             if (id == null || id == 0)
@@ -31,6 +34,7 @@ namespace F1_Car_Garage.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Manufacturer")]
         public IActionResult Upsert(Car car)
         {
             if (!ModelState.IsValid) return View(car);
@@ -56,6 +60,7 @@ namespace F1_Car_Garage.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin,Manufacturer")]
         public IActionResult Delete(int? id)
         {
             if (id == null) return NotFound();
@@ -65,6 +70,7 @@ namespace F1_Car_Garage.Controllers
         }
 
         [HttpPost, ActionName("Delete"), ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Manufacturer")]
         public IActionResult DeleteConfirmed(int id)
         {
             var car = _uow.Cars.Get(id);
@@ -83,7 +89,7 @@ namespace F1_Car_Garage.Controllers
             return View(car);
         }
 
-        public IActionResult QRCode(int id)
+        public IActionResult QRCode(int id) // Generates a QR code linking to the car's stats page
         {
             var car = _uow.Cars.Get(id);
             if (car == null) return NotFound();
@@ -98,7 +104,7 @@ namespace F1_Car_Garage.Controllers
             return File(qrBytes, "image/png");
         }
 
-        public IActionResult QRCodeView(int? id)
+        public IActionResult QRCodeView(int? id) //helps manufacturers and admins to view the QR code in the browser before downloading it
         {
             if (id == null) return NotFound();
             var car = _uow.Cars.Get(id.Value);

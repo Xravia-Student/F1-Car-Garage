@@ -16,7 +16,7 @@ namespace F1_Car_Garage.Controllers
             _db = db;
         }
 
-        // GET /api/CarsApi
+        // Cars api endpoints for fetching car stats and details
         [HttpGet]
         public IActionResult GetAllCars()
         {
@@ -38,7 +38,7 @@ namespace F1_Car_Garage.Controllers
             return Ok(cars);
         }
 
-        // GET /api/CarsApi/{id}/stats
+        // stats endpoint to get detailed stats for a specific car, including installed parts and their contributions
         [HttpGet("{id}/stats")]
         public IActionResult GetCarStats(int id)
         {

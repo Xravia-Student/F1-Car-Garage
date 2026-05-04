@@ -39,3 +39,4 @@ namespace F1_Car_Garage.Repository
         }
     }
 }
+// This class implements the generic IRepository interface for any entity type T. It uses Entity Framework's DbContext to perform CRUD operations on the database. The methods include getting a single entity by ID, getting all entities, adding a new entity, removing an existing entity, and removing a range of entities. The generic type constraint ensures that T is a reference type (class).

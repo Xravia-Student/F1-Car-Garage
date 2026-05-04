@@ -33,3 +33,4 @@ namespace F1_Car_Garage.Repository
         }
     }
 }
+// The UnitOfWork class implements the IUnitOfWork interface and serves as a central point for managing multiple repositories. It initializes the repositories in the constructor and provides a Save method to commit changes to the database. The Dispose method ensures that the database context is properly disposed of when the unit of work is no longer needed.

@@ -25,3 +25,4 @@ namespace F1_Car_Garage.Repository
         }
     }
 }
+// This class implements the IPartRepository interface and extends the generic Repository class for Part entities. It provides implementations for the GetAllWithManufacturer and GetWithManufacturer methods, which retrieve parts along with their associated manufacturer information using Entity Framework's Include method to perform eager loading.

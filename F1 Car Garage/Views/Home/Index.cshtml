@@ -1,8 +1,107 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Hero Section -->
+<div class="row align-items-center py-5" style="min-height: 400px;">
+    <div class="col-md-7">
+        <h1 class="display-4 fw-bold">
+            <span style="color:#E8002D">F1</span> Car Garage
+        </h1>
+        <p class="lead text-muted mb-4">
+            The complete online pitstop platform for Formula 1 teams.
+            Manage cars, source parts, track racers, and visualise
+            performance, all in one place!
+        </p>
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            <a asp-controller="Car" asp-action="Index" class="btn btn-danger btn-lg me-2">View Cars</a>
+            <a asp-controller="Part" asp-action="Compare" class="btn btn-outline-secondary btn-lg">Compare Parts</a>
+        }
+        else
+        {
+            <a asp-controller="Account" asp-action="Login" class="btn btn-danger btn-lg">Sign In to Get Started</a>
+        }
+    </div>
+
 </div>
+
+<hr class="my-4" />
+
+<!-- Feature Cards -->
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+                <div class="mb-3" style="font-size:2rem">🏎️</div>
+                <h5 class="fw-bold">Car Management</h5>
+                <p class="text-muted">Add and configure F1 cars with base performance stats. Install parts and see how your car's Speed, Handling, Acceleration and Maneuverability change in real time.</p>
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Car" asp-action="Index" class="btn btn-sm btn-outline-danger">View Cars →</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+                <div class="mb-3" style="font-size:2rem">🔧</div>
+                <h5 class="fw-bold">Parts & Performance</h5>
+                <p class="text-muted">Browse and compare parts too win races. Use the power chart to compare multiple parts side by side.</p>
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Part" asp-action="Index" class="btn btn-sm btn-outline-danger">View Parts →</a>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-4">
+                <div class="mb-3" style="font-size:2rem">📊</div>
+                <h5 class="fw-bold">Live Stats & QR Codes</h5>
+                <p class="text-muted">Every car has a live performance API and a scannable QR code as the cart. Engineers can pull up full car stats on any device directly from the pit wall.</p>
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <a asp-controller="Car" asp-action="Index" class="btn btn-sm btn-outline-danger">View Stats →</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Role Info Banner -->
+@if (User.Identity != null && User.Identity.IsAuthenticated)
+{
+    <div class="alert border-0 shadow-sm p-4" style="background:#1a1a1a; color:white; border-radius:12px;">
+        <div class="d-flex align-items-center gap-3">
+            <span style="font-size:1.8rem">👋</span>
+            <div>
+                <strong>Welcome back, @User.Identity.Name</strong><br />
+                <span class="text-muted" style="font-size:13px">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <text>You have full Admin access — manage cars, parts, manufacturers, and racers.</text>
+                    }
+                    else if (User.IsInRole("Manufacturer"))
+                    {
+                        <text>You have Manufacturer access — add and configure cars and parts.</text>
+                    }
+                    else if (User.IsInRole("Racer"))
+                    {
+                        <text>You have Racer access — view car stats, QR codes, and compare parts.</text>
+                    }
+                </span>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert border-0 shadow-sm p-4 text-center" style="background:#f8f8f8; border-radius:12px;">
+        <p class="mb-2 fw-bold">Ready to get started?</p>
+        <p class="text-muted mb-3" style="font-size:14px">Sign in with your team credentials to access the garage.</p>
+        <a asp-controller="Account" asp-action="Login" class="btn btn-danger">Sign In</a>
+    </div>
+}

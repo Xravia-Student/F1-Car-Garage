@@ -1,9 +1,13 @@
-﻿@model F1_Car_Garage.Models.Racer
+﻿@model F1_Car_Garage.ViewModels.RacerViewModel // RacerViewModel is used to represent the data needed to create or edit a racer, including the racer's details and login credentials. The Upsert.cshtml page is used for both adding a new racer and editing an existing racer, with the form fields and validation logic adjusting accordingly based on whether the RacerId is 0 (indicating a new racer) or not (indicating an existing racer being edited). The page also includes a dropdown to select a car for the racer, which is populated from the ViewBag.Cars collection passed from the controller.
 @{
     ViewData["Title"] = Model.RacerId == 0 ? "Add Racer" : "Edit Racer";
 }
 
 <h2>@ViewData["Title"]</h2>
+@if (Model.RacerId == 0)
+{
+    <p class="text-muted">A login account will be created for this racer.</p>
+}
 
 <form asp-action="Upsert" method="post">
     <input asp-for="RacerId" type="hidden" />
@@ -31,6 +35,34 @@
             <span asp-validation-for="CarId" class="text-danger"></span>
         </div>
     </div>
+
+    @if (Model.RacerId == 0)
+    {
+        <h5 class="mt-2">Login Credentials</h5>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label asp-for="Username" class="form-label">Username</label>
+                <input asp-for="Username" class="form-control" placeholder="racer123" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" class="form-control" placeholder="racer@email.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="Password" class="form-label">Password</label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                <input asp-for="ConfirmPassword" class="form-control" type="password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+        </div>
+    }
+
     <button type="submit" class="btn btn-danger">Save</button>
     <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
 </form>

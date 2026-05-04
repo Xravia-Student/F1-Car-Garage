@@ -1,32 +1,60 @@
-﻿@model F1_Car_Garage.Models.Manufacturer
+﻿@model F1_Car_Garage.ViewModels.ManufacturerViewModel
 @{
     ViewData["Title"] = "Add Manufacturer";
 }
 
 <h2>Add Manufacturer</h2>
+<p class="text-muted">A login account will be created for this manufacturer.</p>
 
 <form asp-action="Create" method="post">
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Country" class="form-label"></label>
+            <input asp-for="Country" class="form-control" />
+            <span asp-validation-for="Country" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Tier" class="form-label"></label>
+            <select asp-for="Tier" class="form-select">
+                <option value="">-- Select Tier --</option>
+                <option>Budget</option>
+                <option>Mid</option>
+                <option>Premium</option>
+            </select>
+            <span asp-validation-for="Tier" class="text-danger"></span>
+        </div>
     </div>
-    <div class="mb-3">
-        <label asp-for="Country" class="form-label"></label>
-        <input asp-for="Country" class="form-control" />
-        <span asp-validation-for="Country" class="text-danger"></span>
+
+    <h5 class="mt-2">Login Credentials</h5>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Username" class="form-label">Username</label>
+            <input asp-for="Username" class="form-control" placeholder="manufacturer123" />
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Email" class="form-label">Email</label>
+            <input asp-for="Email" class="form-control" placeholder="manufacturer@email.com" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="Password" class="form-label">Password</label>
+            <input asp-for="Password" class="form-control" type="password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+            <input asp-for="ConfirmPassword" class="form-control" type="password" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
     </div>
-    <div class="mb-3">
-        <label asp-for="Tier" class="form-label"></label>
-        <select asp-for="Tier" class="form-select">
-            <option value="">-- Select Tier --</option>
-            <option>Budget</option>
-            <option>Mid</option>
-            <option>Premium</option>
-        </select>
-        <span asp-validation-for="Tier" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-danger">Save</button>
+
+    <button type="submit" class="btn btn-danger">Save & Create Login</button>
     <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
 </form>
 

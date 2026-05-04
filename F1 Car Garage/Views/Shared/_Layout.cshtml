@@ -13,44 +13,84 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-dark border-bottom box-shadow mb-3" style="background:#1a1a1a">
             <div class="container-fluid">
-                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
+                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
                     <span style="color:#E8002D">F1</span> Car Garage
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Car" asp-action="Index">Cars</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link text-white dropdown-toggle" href="#" role="button"
-                               data-bs-toggle="dropdown">Parts</a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" asp-area="" asp-controller="Part" asp-action="Index">All Parts</a>
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Car" asp-action="Index">Cars</a>
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link text-white dropdown-toggle" href="#" role="button"
+                                   data-bs-toggle="dropdown">Parts</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Part" asp-action="Index">All Parts</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Part" asp-action="Compare">Compare Parts</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-controller="Manufacturer" asp-action="Index">Manufacturers</a>
                                 </li>
-                                <li>
-                                    <a class="dropdown-item" asp-area="" asp-controller="Part" asp-action="Compare">Compare Parts</a>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" asp-controller="Racer" asp-action="Index">Racers</a>
                                 </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Manufacturer" asp-action="Index">Manufacturers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Racer" asp-action="Index">Racers</a>
-                        </li>
+                            }
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link text-white">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <span class="badge bg-danger me-1">Admin</span>
+                                    }
+                                    else if (User.IsInRole("Manufacturer"))
+                                    {
+                                        <span class="badge bg-primary me-1">Manufacturer</span>
+                                    }
+                                    else if (User.IsInRole("Racer"))
+                                    {
+                                        <span class="badge bg-success me-1">Racer</span>
+                                    }
+                                    @User.Identity.Name
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Account" asp-action="Logout" method="post">
+                                    <button type="submit" class="btn btn-outline-light btn-sm mt-2">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -59,7 +99,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2026 - F1 Car Garage - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2026 - F1 Car Garage
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

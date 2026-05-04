@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace F1_Car_Garage.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : Controller // home controller with index, privacy, and error actions
     {
         public IActionResult Index()
         {

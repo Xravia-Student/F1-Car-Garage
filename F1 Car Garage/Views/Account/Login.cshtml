@@ -1,0 +1,65 @@
+﻿@model F1_Car_Garage.Controllers.LoginViewModel
+@{
+    ViewData["Title"] = "Login"; //login razor page, where the user can enter their username and password to access the application. The page is styled using Bootstrap and includes validation for the input fields. If the login attempt is unsuccessful, an error message is displayed. The page also includes a demo username and password for testing purposes.
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>F1 Car Garage — Login</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body style="background:#1a1a1a; min-height:100vh; display:flex; align-items:center;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card shadow" style="border-top: 4px solid #E8002D;">
+                    <div class="card-body p-4">
+                        <h2 class="text-center fw-bold mb-1">
+                            <span style="color:#E8002D">F1</span> Car Garage
+                        </h2>
+                        <p class="text-center text-muted mb-4">Sign in to your account</p>
+
+                        <form asp-action="Login" method="post">
+                            <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
+
+                            <div class="mb-3">
+                                <label asp-for="Username" class="form-label">Username</label>
+                                <input asp-for="Username" class="form-control" placeholder="admin" />
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label">Password</label>
+                                <input asp-for="Password" class="form-control" placeholder="••••••" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input asp-for="RememberMe" class="form-check-input" />
+                                <label asp-for="RememberMe" class="form-check-label">Remember me</label>
+                            </div>
+
+                            @if (!ViewData.ModelState.IsValid)
+                            {
+                                <div class="alert alert-danger">Invalid username or password.</div>
+                            }
+
+                            <button type="submit" class="btn btn-danger w-100">Sign In</button>
+                        </form>
+
+                        <hr />
+                        <p class="text-muted text-center" style="font-size:12px">
+                            Demo: admin / legend / pitstop
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

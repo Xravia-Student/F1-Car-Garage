@@ -2,12 +2,14 @@
 using F1_Car_Garage.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace F1_Car_Garage.Controllers
 {
+    [Authorize]
     public class PartController : Controller
     {
-        private readonly IUnitOfWork _uow;
+        private readonly IUnitOfWork _uow; //_uow shortens IUnitOfWork
 
         public PartController(IUnitOfWork uow)
         {
@@ -20,6 +22,7 @@ namespace F1_Car_Garage.Controllers
             return View(parts);
         }
 
+        [Authorize(Roles = "Admin,Manufacturer")]
         public IActionResult Upsert(int? id)
         {
             ViewBag.Manufacturers = _uow.Manufacturers.GetAll()
@@ -38,6 +41,7 @@ namespace F1_Car_Garage.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Manufacturer")]
         public IActionResult Upsert(Part part)
         {
             if (!ModelState.IsValid)
@@ -76,6 +80,7 @@ namespace F1_Car_Garage.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Manufacturer")]
         public IActionResult Delete(int id)
         {
             var part = _uow.Parts.Get(id);

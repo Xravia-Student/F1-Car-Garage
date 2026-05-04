@@ -11,3 +11,4 @@ namespace F1_Car_Garage.Repository.IRepository
         void RemoveRange(IEnumerable<T> entities);
     }
 }
+// This interface defines the basic CRUD operations for any entity type T. It includes methods to get a single entity by ID, get all entities, add a new entity, remove an existing entity, and remove a range of entities. The generic type constraint ensures that T is a reference type (class).

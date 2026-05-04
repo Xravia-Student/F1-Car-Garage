@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Access Denied"; // denies access to the page if the user is not authorized
+}
+
+<div class="text-center mt-5">
+    <h1 style="color:#E8002D; font-size:80px">403</h1>
+    <h2>Access Denied</h2>
+    <p class="text-muted">Please Use the correct login details.</p>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-danger">Go Home</a>
+</div>

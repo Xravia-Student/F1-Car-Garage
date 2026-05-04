@@ -9,3 +9,4 @@
         void Save();
     }
 }
+// The IUnitOfWork interface defines a contract for a unit of work pattern, which is used to group multiple repository operations into a single transaction. It provides properties for accessing specific repositories (Parts, Manufacturers, Cars, Racers) and a Save method to commit changes to the database. It also implements IDisposable to allow for proper resource management.
